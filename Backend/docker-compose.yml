@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: gestaocrises-postgres
+    environment:
+      POSTGRES_DB: gestaocrise_db
+      POSTGRES_USER: gestaocrise
+      POSTGRES_PASSWORD: gestaocrise
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gestaocrise -d gestaocrise_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: gestaocrises-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: gestaocrise_db
+      PGUSER: gestaocrise
+      PGPASSWORD: gestaocrise
+      SERVER_PORT: 8080
+      APPLICATION_SECURITY_JWT_SECRET_KEY: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      APPLICATION_SECURITY_JWT_EXPIRATION: 86400000
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    volumes:
+      - .:/workspace
+
+volumes:
+  postgres_data:
