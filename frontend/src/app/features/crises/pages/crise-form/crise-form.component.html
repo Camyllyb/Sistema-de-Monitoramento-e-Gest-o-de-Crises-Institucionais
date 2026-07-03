@@ -1,0 +1,57 @@
+<div class="crise-form-page">
+  <h2>{{ modoEdicao ? 'Editar crise' : 'Nova crise' }}</h2>
+
+  @if (carregando) {
+    <div class="loading-container">
+      <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+    </div>
+  } @else {
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="salvar()" class="crise-form">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Título</mat-label>
+            <input matInput formControlName="titulo" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descrição</mat-label>
+            <textarea matInput formControlName="descricao" rows="4"></textarea>
+          </mat-form-field>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Tipo</mat-label>
+              <mat-select formControlName="tipo">
+                @for (opcao of tipoOptions; track opcao.value) {
+                  <mat-option [value]="opcao.value">{{ opcao.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="half-width">
+              <mat-label>Nível</mat-label>
+              <mat-select formControlName="nivel">
+                @for (opcao of nivelOptions; track opcao.value) {
+                  <mat-option [value]="opcao.value">{{ opcao.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>ID do responsável</mat-label>
+            <input matInput type="number" formControlName="responsavelId" />
+          </mat-form-field>
+
+          <div class="form-actions">
+            <button mat-stroked-button type="button" (click)="cancelar()">Cancelar</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="salvando">
+              {{ salvando ? 'Salvando...' : 'Salvar' }}
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

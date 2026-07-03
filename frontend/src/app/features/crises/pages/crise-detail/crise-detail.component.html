@@ -1,0 +1,100 @@
+@if (carregando) {
+  <div class="loading-container">
+    <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+  </div>
+} @else if (crise) {
+  <div class="crise-detail-page">
+    <div class="page-header">
+      <h2>{{ crise.titulo }}</h2>
+      @if (podeGerenciar) {
+        <button mat-stroked-button (click)="editar()">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+      }
+    </div>
+
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="badges-row">
+          <app-status-badge [value]="crise.status" kind="status"></app-status-badge>
+          <app-status-badge [value]="crise.nivel" kind="nivel"></app-status-badge>
+          <span class="tipo-chip">{{ crise.tipo }}</span>
+        </div>
+
+        <p class="descricao">{{ crise.descricao }}</p>
+
+        <div class="meta-grid">
+          <div><strong>Responsável:</strong> {{ crise.responsavelNome }}</div>
+          <div><strong>Criada por:</strong> {{ crise.criadoPorNome }}</div>
+          <div><strong>Criada em:</strong> {{ crise.dataCriacao | date: 'dd/MM/yyyy HH:mm' }}</div>
+          <div><strong>Atualizada em:</strong> {{ crise.dataAtualizacao | date: 'dd/MM/yyyy HH:mm' }}</div>
+        </div>
+
+        @if (podeGerenciar) {
+          <div class="status-control">
+            @if (statusBloqueado) {
+              <p class="status-bloqueado">Crise encerrada — não é possível alterar o status.</p>
+            } @else {
+              <form [formGroup]="statusForm" (ngSubmit)="alterarStatus()" class="status-form">
+                <mat-form-field appearance="outline" class="status-field">
+                  <mat-label>Alterar status</mat-label>
+                  <mat-select formControlName="status">
+                    @for (opcao of opcoesStatusDisponiveis; track opcao.value) {
+                      <mat-option [value]="opcao.value">{{ opcao.label }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+                <button mat-flat-button color="primary" type="submit" [disabled]="alterandoStatus">
+                  Atualizar status
+                </button>
+              </form>
+            }
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="acoes-card">
+      <mat-card-header>
+        <mat-card-title>Ações registradas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        @if (acoes.length === 0) {
+          <p class="empty-state">Nenhuma ação registrada ainda.</p>
+        } @else {
+          <mat-list>
+            @for (acao of acoes; track acao.id) {
+              <mat-list-item>
+                <span matListItemTitle>{{ acao.tipo }} — {{ acao.descricao }}</span>
+                <span matListItemLine>{{ acao.executorNome }} · {{ acao.dataAcao | date: 'dd/MM/yyyy HH:mm' }}</span>
+              </mat-list-item>
+            }
+          </mat-list>
+        }
+
+        @if (podeRegistrarAcao) {
+          <form [formGroup]="acaoForm" (ngSubmit)="registrarAcao()" class="acao-form">
+            <mat-form-field appearance="outline" class="acao-tipo-field">
+              <mat-label>Tipo de ação</mat-label>
+              <mat-select formControlName="tipo">
+                @for (opcao of tipoAcaoOptions; track opcao.value) {
+                  <mat-option [value]="opcao.value">{{ opcao.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="acao-descricao-field">
+              <mat-label>Descrição da ação</mat-label>
+              <input matInput formControlName="descricao" />
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" type="submit" [disabled]="registrandoAcao">
+              Registrar ação
+            </button>
+          </form>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+}

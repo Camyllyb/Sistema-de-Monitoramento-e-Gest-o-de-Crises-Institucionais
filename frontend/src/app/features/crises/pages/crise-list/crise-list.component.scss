@@ -1,0 +1,46 @@
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.filtro-card {
+  margin-bottom: 16px;
+  padding: 8px 16px;
+}
+
+.filtro-form {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filtro-field {
+  width: 200px;
+}
+
+.crise-table {
+  width: 100%;
+}
+
+.crise-row {
+  cursor: pointer;
+}
+
+.crise-row:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 24px;
+}

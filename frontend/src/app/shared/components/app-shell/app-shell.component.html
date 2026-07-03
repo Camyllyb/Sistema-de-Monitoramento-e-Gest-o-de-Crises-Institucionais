@@ -1,0 +1,29 @@
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav mode="side" opened class="shell-sidenav">
+    <mat-nav-list>
+      @for (item of itensNav; track item.rota) {
+        <a mat-list-item [routerLink]="item.rota" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>{{ item.icone }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="shell-toolbar">
+      <span>Gestão de Crises Institucionais</span>
+      <span class="shell-spacer"></span>
+      @if (usuario) {
+        <span class="shell-usuario">{{ usuario.nome }} · {{ usuario.perfil }}</span>
+      }
+      <button mat-icon-button (click)="logout()" matTooltip="Sair">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="shell-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
