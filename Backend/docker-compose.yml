@@ -36,7 +36,7 @@ services:
       APPLICATION_SECURITY_JWT_EXPIRATION: 86400000
     ports:
       - "8080:8080"
-      - "5005:5005"
+      - "127.0.0.1:5005:5005"
     volumes:
       - .:/workspace
 
