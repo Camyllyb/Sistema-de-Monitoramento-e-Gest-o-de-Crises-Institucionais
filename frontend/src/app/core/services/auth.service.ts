@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { environment } from '../../../environments/environment';
+import { resolveApiUrl } from '../utils/api-url.util';
 import { ApiResponseDTO } from '../models/api-response.model';
 import { LoginRequestDTO, LoginResponseDTO, UsuarioAutenticadoDTO } from '../models/auth.model';
 
@@ -12,7 +12,7 @@ const USUARIO_KEY = 'gestao_crises_usuario';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly apiUrl = `${environment.apiUrl}/auth`;
+  private readonly apiUrl = `${resolveApiUrl()}/auth`;
 
   constructor(private http: HttpClient) {}
 

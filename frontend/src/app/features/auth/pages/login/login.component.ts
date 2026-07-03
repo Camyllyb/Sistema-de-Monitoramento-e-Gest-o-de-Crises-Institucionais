@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ErrorResponseDTO } from '../../../../core/models/api-response.model';
+import { resolveApiUrl } from '../../../../core/utils/api-url.util';
 
 @Component({
   selector: 'app-login',
@@ -49,7 +50,7 @@ export class LoginComponent {
 
   private mensagemDeErro(erro: HttpErrorResponse): string {
     if (erro.status === 0) {
-      return 'Não foi possível conectar ao servidor. Verifique se o backend está rodando em http://localhost:8080.';
+      return `Não foi possível conectar ao servidor. Verifique se o backend está rodando em ${resolveApiUrl()}.`;
     }
 
     const corpo = erro.error as ErrorResponseDTO | undefined;
