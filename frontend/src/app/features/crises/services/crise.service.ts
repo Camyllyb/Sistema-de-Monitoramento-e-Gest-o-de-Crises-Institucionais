@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { resolveApiUrl } from '../../../core/utils/api-url.util';
+import { environment } from '../../../../environments/environment';
 import { ApiResponseDTO } from '../../../core/models/api-response.model';
 import {
   CriseCreateDTO,
@@ -16,7 +16,7 @@ import { AcaoCriseCreateDTO, AcaoCriseResponseDTO } from '../models/acao.model';
   providedIn: 'root',
 })
 export class CriseService {
-  private readonly apiUrl = `${resolveApiUrl()}/crises`;
+  private readonly apiUrl = `${environment.apiUrl}/crises`;
 
   constructor(private http: HttpClient) {}
 
